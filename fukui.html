@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福井の旅！！ - 旅のしおり</title>
+<style>
+  :root {
+    --main: #2b8a3e;
+    --main-light: #40c057;
+    --sky: #1971c2;
+    --salt: #f8f9fa;
+    --ink: #343a40;
+    --ink-soft: #868e96;
+    --card-bg: #ffffff;
+    --line: #e9ecef;
+    --accent-bg: #ebfbee;
+    --warn-bg: #fff3bf;
+    --warn-ink: #e67700;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    background: var(--salt);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1971c2 0%, #0ca678 55%, #2b8a3e 100%);
+    color: #fff;
+    padding: 2.5rem 1rem 2rem;
+    text-align: center;
+  }
+  header h1 { font-size: 1.8rem; letter-spacing: 0.05em; }
+  header .route { margin-top: 0.6rem; font-size: 0.95rem; opacity: 0.95; }
+  header .dates { margin-top: 0.3rem; font-size: 0.85rem; opacity: 0.85; }
+  header .nav { margin-top: 0.8rem; font-size: 0.8rem; }
+  header .nav a { color: #fff; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+
+  section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    padding: 1.2rem 1.2rem 1.4rem;
+    margin-top: 1.2rem;
+  }
+  section h2 {
+    font-size: 1.15rem;
+    color: var(--main);
+    border-bottom: 2px solid var(--accent-bg);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  section h3 { font-size: 1rem; color: var(--main); margin: 0.9rem 0 0.4rem; }
+
+  #countdown { text-align: center; font-size: 1.05rem; }
+  #countdown .big { font-size: 2rem; font-weight: bold; color: var(--main); }
+
+  .notice {
+    background: var(--warn-bg);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.88rem;
+    color: var(--warn-ink);
+    margin-bottom: 0.8rem;
+  }
+
+  /* 行程タイムライン */
+  .timeline { list-style: none; }
+  .timeline li {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .timeline .time {
+    flex-shrink: 0;
+    width: 5.2em;
+    font-weight: bold;
+    color: var(--sky);
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline .what strong { color: var(--main); }
+  .timeline .note { font-size: 0.82rem; color: var(--ink-soft); }
+
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88rem; white-space: nowrap; }
+  th, td { border-bottom: 1px solid var(--line); padding: 0.55rem 0.7rem; text-align: left; }
+  th { background: var(--accent-bg); color: var(--main); }
+  td a { color: var(--sky); }
+
+  ul.plain { list-style: none; }
+  ul.plain li { padding: 0.35rem 0; border-bottom: 1px dashed var(--line); }
+  ul.plain .name { font-weight: bold; color: var(--main); }
+  ul.plain .desc { font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* チェックリスト共通 */
+  ul.checklist { list-style: none; }
+  ul.checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.2rem;
+    border-bottom: 1px dashed var(--line);
+  }
+  ul.checklist input[type="checkbox"] {
+    width: 1.2rem; height: 1.2rem;
+    accent-color: var(--main-light);
+    flex-shrink: 0;
+  }
+  ul.checklist li.checked .item-label { text-decoration: line-through; color: var(--ink-soft); }
+  ul.checklist .item-label { flex: 1; }
+  ul.checklist .remove {
+    background: none; border: none;
+    color: var(--ink-soft); font-size: 1.1rem;
+    cursor: pointer; padding: 0.2rem 0.5rem;
+  }
+  ul.checklist .remove:hover { color: var(--main); }
+  .add-row { display: flex; gap: 0.5rem; margin-top: 0.9rem; }
+  .add-row input {
+    flex: 1; padding: 0.55rem 0.7rem;
+    border: 1px solid var(--line); border-radius: 8px; font-size: 1rem;
+  }
+  .add-row button {
+    background: var(--main-light); color: #fff;
+    border: none; border-radius: 8px;
+    padding: 0.55rem 1.1rem; font-size: 0.95rem; cursor: pointer;
+  }
+  .add-row button:active { background: var(--main); }
+  .check-progress { margin-top: 0.7rem; font-size: 0.85rem; color: var(--ink-soft); text-align: right; }
+
+  footer { text-align: center; font-size: 0.8rem; color: var(--ink-soft); padding: 1.5rem 1rem 2.5rem; }
+  footer a { color: var(--sky); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦖 福井の旅！！</h1>
+  <div class="route">上野 =新幹線= 福井 =レンタカー= 恐竜博物館・永平寺・東尋坊</div>
+  <div class="dates">2026/7/19(日) – 7/20(月・海の日) ・ あわら温泉泊 ※日程は仮</div>
+  <div class="nav"><a href="index.html">← しおり一覧（南米の旅）</a></div>
+</header>
+
+<main>
+
+  <section>
+    <h2>⏳ カウントダウン</h2>
+    <div id="countdown">読み込み中…</div>
+  </section>
+
+  <section>
+    <h2>📋 まず予約！（重要TODO）</h2>
+    <div class="notice">⚠️ <strong>恐竜博物館は日時指定の完全事前予約制。</strong>連休は完売しやすいので、日程が確定したら最優先で予約！</div>
+    <ul class="checklist" id="todo-list"></ul>
+    <div class="check-progress" id="todo-progress"></div>
+  </section>
+
+  <section>
+    <h2>🗓️ 1日目 7/19(日): 恐竜と禅の里</h2>
+    <ul class="timeline">
+      <li><span class="time">6:50頃</span><div class="what"><strong>上野駅発</strong> 北陸新幹線かがやき<div class="note">乗り換えなし約2時間50分・全車指定席（約15,000円）。時刻は<a href="https://ekitan.com/transit/shinkansen/section/sf-2590/st-5914/kagayaki" target="_blank" rel="noopener">駅探で確認</a></div></div></li>
+      <li><span class="time">9:45頃</span><div class="what"><strong>福井駅着 → レンタカー受け取り</strong><div class="note">駅前に恐竜のオブジェがお出迎え。駅西口の恐竜広場は写真スポット</div></div></li>
+      <li><span class="time">10:00</span><div class="what"><strong>勝山へ出発</strong>（車で約50分）</div></li>
+      <li><span class="time">11:00</span><div class="what"><strong>🦖 福井県立恐竜博物館</strong>（滞在3時間目安）<div class="note">世界三大恐竜博物館。昼は館内レストランで恐竜メニュー。<a href="https://www.dinosaur.pref.fukui.jp/" target="_blank" rel="noopener">公式サイト</a></div></div></li>
+      <li><span class="time">14:15</span><div class="what"><strong>永平寺へ移動</strong>（車で約30分）</div></li>
+      <li><span class="time">14:45</span><div class="what"><strong>🧘 大本山永平寺</strong>（滞在1時間強）<div class="note">曹洞宗大本山・雲水の修行の場。拝観700円、閉門16:30（16時までに入る）。<a href="https://daihonzan-eiheiji.com/sanpai.html" target="_blank" rel="noopener">参拝案内</a></div></div></li>
+      <li><span class="time">16:15</span><div class="what"><strong>あわら温泉へ</strong>（車で約50分）</div></li>
+      <li><span class="time">17:15</span><div class="what"><strong>♨️ あわら温泉 旅館チェックイン</strong><div class="note">「関西の奥座敷」。温泉→旅館で夕食。夜は湯のまち広場の足湯散歩もおすすめ</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🗓️ 2日目 7/20(月祝): 断崖絶壁と港町</h2>
+    <ul class="timeline">
+      <li><span class="time">〜9:30</span><div class="what"><strong>朝風呂・朝食</strong>してチェックアウト</div></li>
+      <li><span class="time">9:45</span><div class="what"><strong>東尋坊へ</strong>（車で約15分）</div></li>
+      <li><span class="time">10:00</span><div class="what"><strong>🌊 東尋坊</strong>（滞在2時間目安）<div class="note">高さ約25mの柱状節理の断崖。遊覧船（大人1,800円・約30分）で海側から見ると迫力倍増。<a href="https://www.toujinbou-yuransen.jp/about/" target="_blank" rel="noopener">遊覧船案内</a>。商店街で岩がきや海鮮も</div></div></li>
+      <li><span class="time">12:15</span><div class="what"><strong>🐟 三国湊で昼ごはん</strong>（車で約10分）<div class="note">海鮮丼 or 名物・越前おろしそば。古い町並み散策も◎</div></div></li>
+      <li><span class="time">13:45</span><div class="what"><strong>🏯 丸岡城（立ち寄りオプション・外観）</strong>（車で約30分）<div class="note">⚠️ 2026年3月〜大規模修理中のため天守内部に入れない可能性大。<a href="https://maruoka-castle.jp/" target="_blank" rel="noopener">公式サイト</a>で最新状況を確認。スキップして温泉/お土産に時間を回すのもあり</div></div></li>
+      <li><span class="time">15:00</span><div class="what"><strong>福井駅へ → レンタカー返却</strong>（車で約30分）<div class="note">給油を忘れずに</div></div></li>
+      <li><span class="time">15:45</span><div class="what"><strong>🍴 駅前で早めの夕食 & お土産</strong><div class="note">名物ソースカツ丼（ヨーロッパ軒）・お土産は羽二重餅が鉄板</div></div></li>
+      <li><span class="time">17:30頃</span><div class="what"><strong>福井駅発</strong> かがやきで帰路（上野 20:30頃着）</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📍 スポット情報まとめ</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>スポット</th><th>料金</th><th>時間</th><th>メモ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.dinosaur.pref.fukui.jp/" target="_blank" rel="noopener">恐竜博物館</a></td><td>大人1,000円</td><td>9:00〜17:00 ※夏季延長あり</td><td>🎫 日時指定の事前予約制</td></tr>
+          <tr><td><a href="https://daihonzan-eiheiji.com/" target="_blank" rel="noopener">永平寺</a></td><td>大人700円</td><td>8:30〜16:30</td><td>16時までに入場</td></tr>
+          <tr><td>東尋坊</td><td>散策無料</td><td>終日</td><td>遊覧船 大人1,800円（9:00〜16:00）</td></tr>
+          <tr><td><a href="https://maruoka-castle.jp/" target="_blank" rel="noopener">丸岡城</a></td><td>大人450円</td><td>8:30〜17:00</td><td>⚠️ 修理工事中・入城制限の可能性</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🍽️ 食べたいものリスト</h2>
+    <ul class="plain">
+      <li><span class="name">ソースカツ丼</span> — <span class="desc">福井のソウルフード。元祖はヨーロッパ軒</span></li>
+      <li><span class="name">越前おろしそば</span> — <span class="desc">大根おろし＋冷たいそば。夏にぴったり</span></li>
+      <li><span class="name">海鮮丼・岩がき</span> — <span class="desc">三国湊・東尋坊エリアで。夏は岩がきの季節</span></li>
+      <li><span class="name">甘えび</span> — <span class="desc">福井は水揚げ量トップクラス</span></li>
+      <li><span class="name">羽二重餅</span> — <span class="desc">お土産の鉄板</span></li>
+      <li><span class="name">越前がに</span> — <span class="desc">⚠️ 漁は11月〜3月。7月は食べられないので次回の口実に</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🎒 持ち物チェックリスト</h2>
+    <ul class="checklist" id="packing-list"></ul>
+    <div class="add-row">
+      <input type="text" id="new-item" placeholder="アイテムを追加…" maxlength="50">
+      <button id="add-btn" type="button">追加</button>
+    </div>
+    <div class="check-progress" id="packing-progress"></div>
+  </section>
+
+</main>
+
+<footer>
+  GitHub Pages でホスト中（サーバーレス）・チェック状態はこのブラウザ内にのみ保存されます<br>
+  <a href="index.html">しおり一覧へ戻る</a>
+</footer>
+
+<script>
+// ===== 設定（日程が確定したらここを変更）=====
+const TRIP_START = "2026-07-19";
+const TRIP_END   = "2026-07-20";
+
+// ===== カウントダウン =====
+function updateCountdown() {
+  const el = document.getElementById("countdown");
+  const now = new Date();
+  const start = new Date(TRIP_START + "T00:00:00");
+  const end = new Date(TRIP_END + "T23:59:59");
+  const dayMs = 24 * 60 * 60 * 1000;
+  if (now < start) {
+    const days = Math.ceil((start - now) / dayMs);
+    el.innerHTML = '出発まで <span class="big">あと ' + days + ' 日</span>！';
+  } else if (now <= end) {
+    el.innerHTML = '<span class="big">🦖 旅行中！</span> 楽しんで！';
+  } else {
+    const days = Math.floor((now - end) / dayMs);
+    el.innerHTML = '旅から <span class="big">' + days.toLocaleString() + ' 日</span> 経過。おつかれさま！';
+  }
+}
+
+// ===== チェックリスト（localStorage 保存・2リスト共通化）=====
+function setupChecklist(opts) {
+  const { storageKey, listId, progressId, defaults, inputId, addBtnId } = opts;
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (e) { /* 壊れたデータは初期値で上書き */ }
+    return defaults.map(label => ({ label, checked: false }));
+  }
+
+  let items = load();
+  const save = () => localStorage.setItem(storageKey, JSON.stringify(items));
+
+  function render() {
+    const ul = document.getElementById(listId);
+    ul.innerHTML = "";
+    items.forEach((item, i) => {
+      const li = document.createElement("li");
+      if (item.checked) li.classList.add("checked");
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = item.checked;
+      cb.addEventListener("change", () => { items[i].checked = cb.checked; save(); render(); });
+
+      const label = document.createElement("span");
+      label.className = "item-label";
+      label.textContent = item.label;
+
+      const rm = document.createElement("button");
+      rm.className = "remove";
+      rm.type = "button";
+      rm.textContent = "✕";
+      rm.setAttribute("aria-label", item.label + " を削除");
+      rm.addEventListener("click", () => { items.splice(i, 1); save(); render(); });
+
+      li.append(cb, label, rm);
+      ul.appendChild(li);
+    });
+    const done = items.filter(i => i.checked).length;
+    document.getElementById(progressId).textContent =
+      items.length ? done + " / " + items.length + " 個 完了" : "アイテムがありません";
+  }
+
+  if (inputId && addBtnId) {
+    const add = () => {
+      const input = document.getElementById(inputId);
+      const label = input.value.trim();
+      if (!label) return;
+      items.push({ label, checked: false });
+      input.value = "";
+      save(); render();
+    };
+    document.getElementById(addBtnId).addEventListener("click", add);
+    document.getElementById(inputId).addEventListener("keydown", e => { if (e.key === "Enter") add(); });
+  }
+
+  render();
+}
+
+setupChecklist({
+  storageKey: "tabisiyou-fukui-todo",
+  listId: "todo-list",
+  progressId: "todo-progress",
+  defaults: [
+    "🦖 恐竜博物館の日時指定券を予約（公式サイト・最優先！）",
+    "🚄 新幹線の指定席を予約（えきねっと: 往路 上野→福井）",
+    "🚄 新幹線の指定席を予約（えきねっと: 復路 福井→上野）",
+    "♨️ あわら温泉の旅館を予約（1泊2食）",
+    "🚗 レンタカーを予約（福井駅前 受取10:00/返却15:30目安）",
+    "🌊 東尋坊遊覧船の運航状況を前日にチェック",
+    "🏯 丸岡城の工事状況をチェック（入れるか確認）",
+  ],
+});
+
+setupChecklist({
+  storageKey: "tabisiyou-fukui-packing",
+  listId: "packing-list",
+  progressId: "packing-progress",
+  defaults: [
+    "モバイルバッテリー",
+    "運転免許証（レンタカー！）",
+    "日焼け止め・帽子（東尋坊は日陰なし）",
+    "歩きやすい靴（永平寺は階段多め・東尋坊は岩場）",
+    "汗ふきタオル・着替え",
+    "折りたたみ傘",
+    "温泉用の小さいバッグ",
+    "酔い止め（山道運転する人向け）",
+  ],
+  inputId: "new-item",
+  addBtnId: "add-btn",
+});
+
+// ===== 起動 =====
+updateCountdown();
+setInterval(updateCountdown, 60 * 1000);
+</script>
+
+</body>
+</html>

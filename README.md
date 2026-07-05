@@ -1,7 +1,7 @@
 # 南米の旅！！
 
 📖 **旅のしおり（Webページ版）**: https://ichi-kato.github.io/tabisiyou/
-（初回のみ Settings → Pages → Source を「GitHub Actions」にすると公開されます）
+（初回のみ Settings → Pages → Branch で `gh-pages` を選んで Save すると公開されます。以降は master への push で自動更新）
 
 ## 日程（空路）
 

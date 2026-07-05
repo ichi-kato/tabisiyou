@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南米の旅！！ - 旅のしおり</title>
+<style>
+  :root {
+    --sunset: #e8590c;
+    --sunset-light: #fd7e14;
+    --sky: #1971c2;
+    --salt: #f8f9fa;
+    --ink: #343a40;
+    --ink-soft: #868e96;
+    --card-bg: #ffffff;
+    --line: #e9ecef;
+    --accent-bg: #fff4e6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    background: var(--salt);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1971c2 0%, #7048e8 45%, #e8590c 100%);
+    color: #fff;
+    padding: 2.5rem 1rem 2rem;
+    text-align: center;
+  }
+  header h1 { font-size: 1.8rem; letter-spacing: 0.05em; }
+  header .route {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.95;
+  }
+  header .dates { margin-top: 0.3rem; font-size: 0.85rem; opacity: 0.85; }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+  }
+
+  section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    padding: 1.2rem 1.2rem 1.4rem;
+    margin-top: 1.2rem;
+  }
+  section h2 {
+    font-size: 1.15rem;
+    color: var(--sunset);
+    border-bottom: 2px solid var(--accent-bg);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  /* カウントダウン */
+  #countdown {
+    text-align: center;
+    font-size: 1.05rem;
+  }
+  #countdown .big {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--sunset);
+  }
+
+  /* 現地時刻 */
+  .clocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+  .clock {
+    background: var(--accent-bg);
+    border-radius: 10px;
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+  }
+  .clock .city { font-size: 0.85rem; color: var(--ink-soft); }
+  .clock .time {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    color: var(--sky);
+  }
+  .clock .date { font-size: 0.78rem; color: var(--ink-soft); }
+
+  /* テーブル */
+  .table-wrap { overflow-x: auto; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+  th, td {
+    border-bottom: 1px solid var(--line);
+    padding: 0.55rem 0.7rem;
+    text-align: left;
+  }
+  th { background: var(--accent-bg); color: var(--sunset); }
+  td a { color: var(--sky); }
+
+  /* チェックリスト */
+  #checklist { list-style: none; }
+  #checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.2rem;
+    border-bottom: 1px dashed var(--line);
+  }
+  #checklist input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--sunset-light);
+    flex-shrink: 0;
+  }
+  #checklist li.checked .item-label {
+    text-decoration: line-through;
+    color: var(--ink-soft);
+  }
+  #checklist .item-label { flex: 1; }
+  #checklist .remove {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+  }
+  #checklist .remove:hover { color: var(--sunset); }
+  .add-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+  .add-row input {
+    flex: 1;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  .add-row button {
+    background: var(--sunset-light);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .add-row button:active { background: var(--sunset); }
+  .check-progress {
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-align: right;
+  }
+
+  /* 参考情報 */
+  .refs a { color: var(--sky); word-break: break-all; }
+
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    padding: 1.5rem 1rem 2.5rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦙 南米の旅！！</h1>
+  <div class="route">リマ → クスコ → ラパス → ウユニ → リマ</div>
+  <div class="dates">2019/12/26 – 12/31 ・ ペルー &amp; ボリビア</div>
+</header>
+
+<main>
+
+  <section>
+    <h2>⏳ カウントダウン</h2>
+    <div id="countdown">読み込み中…</div>
+  </section>
+
+  <section>
+    <h2>🕐 現地時刻</h2>
+    <div class="clocks">
+      <div class="clock">
+        <div class="city">🇯🇵 日本</div>
+        <div class="time" id="clock-tokyo">--:--:--</div>
+        <div class="date" id="date-tokyo"></div>
+      </div>
+      <div class="clock">
+        <div class="city">🇵🇪 ペルー（リマ・クスコ）</div>
+        <div class="time" id="clock-lima">--:--:--</div>
+        <div class="date" id="date-lima"></div>
+      </div>
+      <div class="clock">
+        <div class="city">🇧🇴 ボリビア（ラパス・ウユニ）</div>
+        <div class="time" id="clock-lapaz">--:--:--</div>
+        <div class="date" id="date-lapaz"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>✈️ 日程（空路）</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日付</th><th>時間</th><th>区間</th><th>便名</th><th>Google フライト</th><th>スカイスキャナー</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12/26</td><td>4:55-6:18</td><td>リマ→クスコ</td><td>LA 2011</td>
+            <td><a href="https://www.google.com/flights?hl=ja#flt=LIM.CUZ.2019-12-26.LIMCUZ0LA2011;c:JPY;e:1;sd:1;t:b;tt:o;sp:0.JPY.5417" target="_blank" rel="noopener">クリックして！</a></td>
+            <td><a href="https://www.skyscanner.jp/transport/flights/lim/cuz/191226/?adults=1&amp;children=0&amp;adultsv2=1&amp;childrenv2=&amp;infants=0&amp;cabinclass=economy&amp;rtn=0&amp;preferdirects=false&amp;outboundaltsenabled=false&amp;inboundaltsenabled=false&amp;ref=home#/details/13571-1912260455--32115-0-10815-1912260618" target="_blank" rel="noopener">クリックして！</a></td>
+          </tr>
+          <tr>
+            <td>12/28</td><td>8:53-11:03</td><td>クスコ→ラパス</td><td>LA 2379</td>
+            <td><a href="https://www.google.com/flights?hl=ja#flt=CUZ.LPB.2019-12-28.CUZLPB0LA2379;c:JPY;e:1;sd:1;t:b;tt:o;sp:0.JPY.16714" target="_blank" rel="noopener">クリックして！</a></td>
+            <td><a href="https://www.skyscanner.jp/transport/flights/cuz/lpb/191228/?adults=1&amp;children=0&amp;adultsv2=1&amp;childrenv2=&amp;infants=0&amp;cabinclass=economy&amp;rtn=0&amp;preferdirects=false&amp;outboundaltsenabled=false&amp;inboundaltsenabled=false&amp;ref=home#/details/10815-1912280853--32115-0-13690-1912281103" target="_blank" rel="noopener">クリックして！</a></td>
+          </tr>
+          <tr>
+            <td>12/28</td><td>19:20-20:10</td><td>ラパス→ウユニ</td><td>Z8 310</td>
+            <td><a href="https://www.google.com/flights?hl=ja#flt=LPB./m/01cbcv.2019-12-28.LPBUYU0Z8310;c:JPY;e:1;sd:1;t:b;tt:o;sp:.JPY." target="_blank" rel="noopener">クリックして！</a></td>
+            <td><a href="https://www.skyscanner.jp/transport/flights/lpb/uyu/191228/?adults=1&amp;children=0&amp;adultsv2=1&amp;childrenv2=&amp;infants=0&amp;cabinclass=economy&amp;rtn=0&amp;preferdirects=false&amp;outboundaltsenabled=false&amp;inboundaltsenabled=false&amp;ref=home#/details/13690-1912281920--32575-0-17435-1912282010" target="_blank" rel="noopener">クリックして！</a></td>
+          </tr>
+          <tr>
+            <td>12/30</td><td>15:20-16:10</td><td>ウユニ→ラパス</td><td>Z8 307</td>
+            <td><a href="https://www.google.com/flights?hl=ja#flt=/m/01cbcv.LPB.2019-12-30.UYULPB0Z8307;c:JPY;e:1;sd:1;t:b;tt:o;sp:.JPY." target="_blank" rel="noopener">クリックして！</a></td>
+            <td><a href="https://www.skyscanner.jp/transport/flights/uyu/lpb/191230/?adults=1&amp;children=0&amp;adultsv2=1&amp;childrenv2=&amp;infants=0&amp;cabinclass=economy&amp;rtn=0&amp;preferdirects=false&amp;outboundaltsenabled=false&amp;inboundaltsenabled=false&amp;ref=home#/details/17435-1912301520--32575-0-13690-1912301610" target="_blank" rel="noopener">クリックして！</a></td>
+          </tr>
+          <tr>
+            <td>12/31</td><td>7:55-9:05</td><td>ラパス→リマ</td><td>AV 7391</td>
+            <td><a href="https://www.google.com/flights?hl=ja#flt=LPB.LIM.2019-12-31.LPBLIM0AV7391;c:JPY;e:1;sd:1;t:b;tt:o;sp:0.JPY.27322" target="_blank" rel="noopener">クリックして！</a></td>
+            <td><a href="https://www.skyscanner.jp/transport/flights/lpb/lim/191231/?adults=1&amp;children=0&amp;adultsv2=1&amp;childrenv2=&amp;infants=0&amp;cabinclass=economy&amp;rtn=0&amp;preferdirects=false&amp;outboundaltsenabled=false&amp;inboundaltsenabled=false&amp;ref=home#/details/13690-1912310755--32540-0-13571-1912310905" target="_blank" rel="noopener">クリックして！</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🗺️ 主な観光</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日付</th><th>都市</th><th>行き先</th><th>ツアー</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>12/26</td><td>クスコ</td><td>未定（?）</td><td></td></tr>
+          <tr><td>12/27</td><td>クスコ</td><td>マチュピチュ</td><td><a href="https://www.veltra.com/jp/latin_america/peru/a/17447" target="_blank" rel="noopener">ベルトラのURL</a></td></tr>
+          <tr><td>12/28</td><td>ラパス</td><td>月の谷とか</td><td></td></tr>
+          <tr><td>12/29-30</td><td>ウユニ</td><td>ウユニ塩湖</td><td><a href="https://www.veltra.com/jp/latin_america/bolivia/a/161706" target="_blank" rel="noopener">ベルトラのURL</a></td></tr>
+          <tr><td>12/31</td><td>リマ</td><td>ナスカの地上絵（仮？）</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🎒 持ち物チェックリスト</h2>
+    <ul id="checklist"></ul>
+    <div class="add-row">
+      <input type="text" id="new-item" placeholder="アイテムを追加…" maxlength="50">
+      <button id="add-btn" type="button">追加</button>
+    </div>
+    <div class="check-progress" id="check-progress"></div>
+  </section>
+
+  <section class="refs">
+    <h2>📚 参考情報</h2>
+    <ul>
+      <li><a href="https://www.travel.co.jp/guide/article/36798/" target="_blank" rel="noopener">https://www.travel.co.jp/guide/article/36798/</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  GitHub Pages でホスト中（サーバーレス）・データはこのブラウザ内にのみ保存されます
+</footer>
+
+<script>
+// ===== 設定（日程を変えるときはここを編集）=====
+const TRIP_START = "2019-12-26";
+const TRIP_END   = "2019-12-31";
+
+// ===== カウントダウン =====
+function updateCountdown() {
+  const el = document.getElementById("countdown");
+  const now = new Date();
+  const start = new Date(TRIP_START + "T00:00:00");
+  const end = new Date(TRIP_END + "T23:59:59");
+  const dayMs = 24 * 60 * 60 * 1000;
+  if (now < start) {
+    const days = Math.ceil((start - now) / dayMs);
+    el.innerHTML = '出発まで <span class="big">あと ' + days + ' 日</span>！';
+  } else if (now <= end) {
+    el.innerHTML = '<span class="big">🎉 旅行中！</span> 楽しんで！';
+  } else {
+    const days = Math.floor((now - end) / dayMs);
+    el.innerHTML = '旅から <span class="big">' + days.toLocaleString() + ' 日</span> 経過。また行こう！';
+  }
+}
+
+// ===== 現地時刻 =====
+const CLOCKS = [
+  { id: "tokyo", tz: "Asia/Tokyo" },
+  { id: "lima",  tz: "America/Lima" },
+  { id: "lapaz", tz: "America/La_Paz" },
+];
+function updateClocks() {
+  const now = new Date();
+  for (const c of CLOCKS) {
+    document.getElementById("clock-" + c.id).textContent =
+      new Intl.DateTimeFormat("ja-JP", { timeZone: c.tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).format(now);
+    document.getElementById("date-" + c.id).textContent =
+      new Intl.DateTimeFormat("ja-JP", { timeZone: c.tz, month: "numeric", day: "numeric", weekday: "short" }).format(now);
+  }
+}
+
+// ===== 持ち物チェックリスト（localStorage 保存）=====
+const STORAGE_KEY = "tabisiyou-checklist";
+const DEFAULT_ITEMS = [
+  "パスポート",
+  "航空券（eチケット控え）",
+  "米ドル現金",
+  "クレジットカード",
+  "高山病の薬（ソローチェピル等）",
+  "日焼け止め",
+  "サングラス",
+  "防寒着（ウユニの夜は寒い）",
+  "長靴 or サンダル（塩湖用）",
+  "モバイルバッテリー",
+  "変換プラグ（A/Cタイプ）",
+  "カメラ",
+  "常備薬・胃腸薬",
+  "ウェットティッシュ",
+];
+
+function loadItems() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) { /* 壊れたデータは初期値で上書き */ }
+  return DEFAULT_ITEMS.map(label => ({ label, checked: false }));
+}
+
+let items = loadItems();
+
+function saveItems() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+}
+
+function renderChecklist() {
+  const ul = document.getElementById("checklist");
+  ul.innerHTML = "";
+  items.forEach((item, i) => {
+    const li = document.createElement("li");
+    if (item.checked) li.classList.add("checked");
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = item.checked;
+    cb.addEventListener("change", () => {
+      items[i].checked = cb.checked;
+      saveItems();
+      renderChecklist();
+    });
+
+    const label = document.createElement("span");
+    label.className = "item-label";
+    label.textContent = item.label;
+
+    const rm = document.createElement("button");
+    rm.className = "remove";
+    rm.type = "button";
+    rm.textContent = "✕";
+    rm.setAttribute("aria-label", item.label + " を削除");
+    rm.addEventListener("click", () => {
+      items.splice(i, 1);
+      saveItems();
+      renderChecklist();
+    });
+
+    li.append(cb, label, rm);
+    ul.appendChild(li);
+  });
+
+  const done = items.filter(i => i.checked).length;
+  document.getElementById("check-progress").textContent =
+    items.length ? done + " / " + items.length + " 個 準備OK" : "アイテムがありません";
+}
+
+function addItem() {
+  const input = document.getElementById("new-item");
+  const label = input.value.trim();
+  if (!label) return;
+  items.push({ label, checked: false });
+  input.value = "";
+  saveItems();
+  renderChecklist();
+}
+
+document.getElementById("add-btn").addEventListener("click", addItem);
+document.getElementById("new-item").addEventListener("keydown", e => {
+  if (e.key === "Enter") addItem();
+});
+
+// ===== 起動 =====
+updateCountdown();
+updateClocks();
+renderChecklist();
+setInterval(updateClocks, 1000);
+setInterval(updateCountdown, 60 * 1000);
+</script>
+
+</body>
+</html>

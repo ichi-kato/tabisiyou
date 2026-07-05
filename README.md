@@ -1,5 +1,8 @@
 # 南米の旅！！
 
+📖 **旅のしおり（Webページ版）**: https://ichi-kato.github.io/tabisiyou/
+（初回のみ Settings → Pages → Source を「GitHub Actions」にすると公開されます）
+
 ## 日程（空路）
 
 |日付  |時間  |区間  |便名  |URL(googleフライト)  |URL(スカイスキャナー)  |

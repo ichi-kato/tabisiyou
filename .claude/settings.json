@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|mcp__github__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-pii.sh\"",
+            "timeout": 30,
+            "statusMessage": "個人情報チェック中..."
+          }
+        ]
+      }
+    ]
+  }
+}
